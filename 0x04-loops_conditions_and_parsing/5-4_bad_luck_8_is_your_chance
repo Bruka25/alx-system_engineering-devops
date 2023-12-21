@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script displays "bad luck" on 4th loop
+# "good luck" on 8th loop
+# "Best School" on every other line up to 10 lines
+
+ADDER=1
+while [ $ADDER -le 10 ]; do
+      if [ $ADDER -eq 4 ]
+      then
+	echo bad luck
+      elif [ $ADDER -eq 8 ]
+      then
+	echo good luck
+      else
+	echo Best School
+      fi
+      (( ADDER+=1))
+done
