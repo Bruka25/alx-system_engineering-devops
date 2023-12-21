@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script displays "bad luck from China" on the fourth loop
+# "bad luck from Japan" on the ninth loop
+# "bad luck from Italy on the seventeenth loop
+# Else displays number from 1 to 20 on other iterations
+
+ADDER=1
+while [ $ADDER -le 20 ]; do
+    echo $ADDER
+
+    case $ADDER in
+	4) echo "bad luck from China";;
+	9) echo "bad luck from Japan";;
+	17) echo "bad luck from Italy";;
+    esac
+
+    (( ADDER+=1))
+done
