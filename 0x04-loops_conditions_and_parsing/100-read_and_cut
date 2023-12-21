@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Script that displays the contents /etc/passwd file
+# Script only displays username, group id, and shell full path for user
+
+while read pass
+do
+    echo "$pass" | cut -d':' -f1,3,6
+done </etc/passwd
