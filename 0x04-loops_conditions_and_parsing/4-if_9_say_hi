@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Script that displays Best School 10 times, but on the ninth iteration
+# Hi on a new line
+ 
+ADDER=1
+while [ $ADDER -le 10 ]; do
+    echo Best School
+
+    if [ $ADDER -eq 9 ]
+    then
+	echo Hi
+    fi
+    (( ADDER+=1))
+done
