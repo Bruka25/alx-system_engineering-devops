@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Scrpt that displays the visitors ip address
+# and HTTP status code
+# format OCCURENCE_NUMBER IP HTTP_CODE in list format
+# in sorted order
+
+awk '{ print $1 " " $9}' apache-access.log | sort | uniq -c | sort -rn
