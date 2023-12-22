@@ -4,6 +4,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+int infinite_while(void);
 
 /**
  * main - Entry point for Creating five zombie processes

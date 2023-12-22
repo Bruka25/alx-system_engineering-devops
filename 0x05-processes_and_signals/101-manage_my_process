@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Bash init script that manages my_process
-# With minimum set of instructions start, restar, and stop
+# With minimum set of instructions start, restart, and stop
  
 if [ "$1" == "start" ]
 then
