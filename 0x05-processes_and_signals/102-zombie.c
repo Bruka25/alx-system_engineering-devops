@@ -35,7 +35,7 @@ int main(void)
 }
 
 /**
- *infinite_while - Function thas runs an infinite while loop
+ *infinite_while - Function that runs an infinite while loop
  *
  *Return: Always 0
  */
