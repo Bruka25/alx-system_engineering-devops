@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Bash init script that manages my_process
+# With minimum set of instructions start, restar, and stop
+ 
+if [ "$1" == "start" ]
+then
+  ./manage_my_process &              # start the process in the background
+  echo $$ > /var/run/my_process.pid  # save the processid  
+  echo "manage_my_process started"
+
+elif [ "$1" == "stop" ]
+then
+  kill "$(pgrep -f /manage_my_process)" # terminate the process using it's name 
+  rm /var/run/my_process.pid            # remove the pid
+  echo "manage_my_process stopped"
+
+elif [ "$1" == "restart" ]
+then
+  kill "$(pgrep -f /manage_my_process)"
+  rm /var/run/my_process.pid
+  ./manage_my_process &
+  echo $$ > /var/run/my_process.pid  # save the processid of the restarted program
+  echo "manage_my_process restarted"
+
+else
+  echo "Usage: manage_my_process {start|stop|restart}" # show the usage format if it's not fulfilled
+fi

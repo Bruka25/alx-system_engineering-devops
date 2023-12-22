@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Scripts that Indefinitely writes "I am alive" 
+#+to the file /tmp/my_process that will be managed
+#+by the init script 101-manage_my_process
+# Sleeps for two seconds in between each
+#+iteration of the message
+
+while true
+do
+  echo "I am alive!" >> /tmp/my_process
+  sleep 2
+done
