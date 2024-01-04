@@ -51,12 +51,17 @@ The following scripts are Bash scripts for 0x07-networking_basics, inside it con
 * Answer for the following question:
 
    Which statement is correct for the TCP box:
+
        1. It is a protocol that is transferring data in a slow way but surely
        2. It is a protocol that is transferring data in a fast way and might loss data along in the process
+
    Which statement is correct for the UDP box:
+
        1. It is a protocol that is transferring data in a slow way but surely
        2. It is a protocol that is transferring data in a fast way and might loss data along in the process
+
    Which statement is correct for the TCP worker:
+
        1. Have you received boxes x, y, z?
        2. May I increase the rate at which I am sending you boxes? 
 
