@@ -1,0 +1,25 @@
+Additional elemnts of this web infrastrure:
+
+* Firewalls: Added to enforce security policies, control traffic, and prevent unauthorized access to servers
+* SSL Certificate: Used to encrypt data transmitted between the user's browser and the server, preventing eavesdropping and tampering
+* Monitoring Clients: Installed to collect real-time data on server performance, resource usage, and security events for proactive monitoring and troubleshooting
+
+* Traffic Served over HTTPS:
+HTTPS encrypts data in transit, protecting sensitive information such as login credentials and payment details from interception and tampering.
+* Purpose of Monitoring:
+Monitoring is used to ensure the availability, performance, and security of the infrastructure. It helps detect and respond to issues promptly, minimizing downtime and optimizing resource utilization
+* Data Collection by Monitoring Tool:
+The monitoring tool (Sumo Logic) collects data by deploying lightweight agents or collectors on each server. These agents gather metrics, logs, and events and send them to the monitoring platform for analysis and visualization
+* Monitoring Web Server QPS:
+To monitor web server QPS (Queries Per Second), configure the monitoring tool to collect and aggregate HTTP request metrics from each web server. Set up alerts to notify administrators if QPS exceeds predefined thresholds, indicating potential performance issues or increased traffic
+
+Issues with this web infrastracture:
+
+* Terminating SSL at the Load Balancer Level:
+Terminating SSL at the load balancer exposes decrypted traffic within the internal network, potentially compromising data confidentiality. Ideally, SSL termination should occur at the web servers to maintain end-to-end encryption
+
+* Single MySQL Server Accepting Writes:
+Having only one MySQL server capable of accepting writes creates a single point of failure. If the server fails, it could lead to data loss or downtime
+
+* Identical Servers with All Components:
+Using servers with identical components (database, web server, and application server) may lead to uniform vulnerabilities and failure points. Diversifying server roles or configurations can enhance resilience and fault tolerance 
