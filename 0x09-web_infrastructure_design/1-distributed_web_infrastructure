@@ -1,0 +1,30 @@
+Specifics about the distributed web infrasturcture:
+
+*  -> Second Server: Added for redundancy and to distribute the workload, reducing the risk of a single point of failure
+   -> Load Balancer (HAproxy): Ensures high availability by distributing traffic across multiple servers and enables scalability
+
+* Load balancer Configured with a round-robin distribution algorithm: It routes incoming requests sequentially to each server in a rotating manner
+
+* Active-Active vs. Active-Passive Setup:
+
+  -> Active-Active: Both servers are actively serving traffic, distributing the load between them. This setup offers better resource utili     zation and scalability
+  -> Active-Passive: One server handles traffic while the other remains idle, serving as a backup. If the active server fails, the passive     one takes over. This setup provides redundancy but underutilizes resources
+
+* Primary-Replica (Master-Slave) Database Cluster:
+  -> The Primary node handles both read and write operations, serving as the main database instance
+  -> Replica nodes replicate data from the Primary node asynchronously and handle read operations. They serve as backups and can promote t     o Primary if needed
+
+* Difference between Primary and Replica Nodes:
+
+  -> The Primary node handles write operations and is the authoritative source of data
+  -> Replica nodes serve read operations and can become the Primary node if the current Primary fails
+
+Issues with this infrastructure:
+
+*Single Point of Failure (SPOF):
+  -> Although there are multiple servers, other components like the load balancer or database may still be single points of failure if not     properly configured for redundancy.
+Security Issues:
+  -> Lack of firewall configuration exposes servers to potential security threats
+  -> Absence of HTTPS encryption leaves communications vulnerable to interception and data theft
+No Monitoring:
+  -> Without monitoring tools, it's challenging to detect and respond to performance issues, security breaches, or infrastructure failures     proactively 
