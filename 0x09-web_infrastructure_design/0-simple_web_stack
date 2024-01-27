@@ -1,0 +1,15 @@
+The roles of individual components:
+
+* Server is physical or virtual machine that hosts the entire infrastructure
+* Domain Name (foobar.com): A human-readable label used to access resources on the internet. It's configured with a www record pointing to the server's IP address (8.8.8.8)
+* DNS Record for www: The www record is a type of DNS record used to specify that the website is accessible via the www subdomain
+* Web Server (Nginx): Nginx serves as the entry point for incoming HTTP requests, routing them to the appropriate destination (static files or dynamic content
+* Application Server: Executes the website's codebase, processes requests, and generates dynamic content
+* Database (MySQL): Stores and manages the website's data, such as user information, content, etc
+* The server communicates with the user's computer over the internet using the HTTP protocol, serving web pages requested by the user's browser
+
+Issues of this infrastructure:
+
+* Single Point of Failure (SPOF): If any component (server, web server, application server, or database) fails, the entire website becomes inaccessible
+* Downtime during Maintenance: Performing maintenance tasks, such as deploying new code or updates, requires restarting the web server, resulting in downtime for the website
+* Limited Scalability: The infrastructure cannot easily handle increased traffic as there's only one server. Scaling up requires significant changes or additional resources
