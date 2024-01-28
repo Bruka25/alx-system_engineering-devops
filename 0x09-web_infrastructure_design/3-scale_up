@@ -1,0 +1,11 @@
+Specifics about this web infrastructure:
+
+* Server Splitting: Components (web server, application server, database) are split across two servers to distribute the workload, improve fault tolerance, and enhance performance. This separation also provides isolation and security between different layers of the application.
+
+* Load Balancer (HAProxy Cluster): Configured as a cluster to ensure high availability and redundancy. If one load balancer fails, the other one can seamlessly take over, minimizing downtime and ensuring continuous availability of the application.
+
+Additional elements of this web design:
+
+* Server Splitting: Distributing components across multiple servers allows for better resource utilization, improved fault tolerance, and scalability. Each server can focus on its specific role, optimizing performance and simplifying maintenance.
+
+* Load Balancer (HAProxy Cluster): Load balancers distribute incoming traffic across multiple servers, ensuring optimal resource utilization and high availability. Configuring HAProxy as a cluster adds redundancy and fault tolerance, minimizing the impact of load balancer failures on the availability of the application.
