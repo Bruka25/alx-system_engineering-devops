@@ -1,0 +1,10 @@
+# Configurational file for my ubuntu server
+# To connect server without using a password
+ 
+Host *
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/school
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
