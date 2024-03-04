@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Bash script for installing and configuring haproxy
+# It uses the roundrobin algorithm for load balancing
+# It redirects user request to 491822-web-01 and 
+#+ 491822-web-02
+ 
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.8
+sudo apt-get update
+sudo apt-get install haproxy=2.8.\*
+
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.origin}
+touch /etc/haproxy/haproxy.cfg
+
+printf %s "global
+    log 127.0.0.1 local0 notice
+    maxconn 2000
+    user haproxy
+    group haproxy
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option redispatch
+    timeout connect  5000
+    timeout client   5000
+    timeout server   5000
+
+listen bruka
+    bind 0.0.0.0:80
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    balance roundrobin
+    option httpclose
+    option forwardfor
+    server 491822-web-01 34.229.189.65:80 check
+    server 491822-web-02 100.26.166.148:80 check
+" >> /etc/haproxy/haproxy.cfg
+
+service haproxy start
