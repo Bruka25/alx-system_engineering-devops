@@ -47,6 +47,5 @@ frontend clickviral-frontend-https
 
 backend clickviral-backend
         balance roundrobin
-        redirect scheme https if !{ ssl_fc }
         server 491822-web-01 34.229.189.65:80 check
         server 491822-web-02 100.26.166.148:80 check
