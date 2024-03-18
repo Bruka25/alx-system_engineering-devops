@@ -1,0 +1,12 @@
+# Check if the redirection rule already exists in the configuration file
+if grep -q "8080 -j REDIRECT --to-port 80" /etc/ufw/before.rules; then
+    :
+else
+    # Append the redirection rule to the NAT table in the configuration file
+    sed -i '/^\*nat/ a \
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80 \
+' /etc/ufw/before.rules
+    
+    # Reload ufw to apply the changes
+    ufw reload
+fi
