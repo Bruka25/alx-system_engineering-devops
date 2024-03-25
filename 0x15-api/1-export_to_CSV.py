@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Python script that that uses REST API, for a given employee ID, 
+"""Python script that that uses REST API, for a given employee ID,
    returns information about his/her TODO list progress
    but this time as a csv format
 """ 
@@ -29,4 +29,3 @@ if __name__ == "__main__":
         writer = csv.writer(csvfile, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_ALL)
         writer.writerows(all_tasks)
-
