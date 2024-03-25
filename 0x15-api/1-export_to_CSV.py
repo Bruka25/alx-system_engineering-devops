@@ -2,7 +2,7 @@
 """Python script that that uses REST API, for a given employee ID,
    returns information about his/her TODO list progress
    but this time as a csv format
-""" 
+"""
 
 
 import csv
