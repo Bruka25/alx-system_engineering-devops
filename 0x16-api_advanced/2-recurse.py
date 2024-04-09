@@ -1,31 +1,35 @@
 #!/usr/bin/python3
-"""This module  queries the Reddit API and returns a list containing
 """
+Reddit API hot articles
+"""
+
 import requests
 
+def recurse(subreddit, hot_list=[]):
+    """
+    Recursively query the Reddit API to get titles of hot articles for a given subreddit.
+    :param subreddit: The subreddit to retrieve hot articles from
+    :param hot_list: A list to store the titles of hot articles
+    :return: A list containing titles of hot articles, or None if no results are found
+    """
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    headers = {"User-Agent": "Custom-User-Agent"}
 
-def recurse(subreddit, hot_list=[], after="", count=0):
-    """Returns a list of titles of all hot posts on a given subreddit."""
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {
-        "User-Agent": "bruka request"
-    }
-    params = {
-        "after": after,
-        "count": count,
-        "limit": 100
-    }
-    res = requests.get(url, headers=headers, params=params,
-                       allow_redirects=False)
-    if res.status_code == 404:
+    subreddit_info = requests.get(url, headers=headers, allow_redirects=False)
+
+    if subreddit_info.status_code == 200:
+        data = subreddit_info.json().get('data', {})
+        posts = data.get('children', [])
+        if posts:
+            for post in posts:
+                hot_list.append(post.get('data', {}).get('title'))
+
+            after = data.get('after')
+            if after:
+                return recurse(subreddit, hot_list)
+            else:
+                return hot_list
+        else:
+            return None
+    else:
         return None
-
-    results = res.json().get("data")
-    after = results.get("children")[-1].get("name")
-    count += results.get("dist")
-    for c in results.get("children"):
-        hot_list.append(c.get("data").get("title"))
-
-    if after is not None:
-        return recurse(subreddit, hot_list, after, count)
-    return hot_list
