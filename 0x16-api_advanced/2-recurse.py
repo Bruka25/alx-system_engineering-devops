@@ -16,7 +16,7 @@ def recurse(subreddit, hot_list=[]):
              if no results are found
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    headers = {"User-Agent": "Custom-User-Agent"}
+    headers = {"User-Agent": "bruka request"}
 
     subreddit_info = requests.get(url, headers=headers, allow_redirects=False)
 
