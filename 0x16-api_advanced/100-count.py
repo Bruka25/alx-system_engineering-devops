@@ -42,6 +42,6 @@ def count_words(subreddit, word_list, after='', word_count={}):
                 for word, count in sorted_word_count:
                     print(f"{word}: {count}")
         else:
-            print("No hot articles found for the subreddit.")
+            pass
     else:
-        print("Invalid subreddit or unable to retrieve data.")
+        pass
