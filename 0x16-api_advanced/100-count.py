@@ -1,46 +1,55 @@
 #!/usr/bin/python3
-"""This module queries the Reddit API, parses the title of all hot articles
-   and prints a sorted count of given keywords
-"""
-
-import re
+"""Function to count words in all hot posts of a given Reddit subreddit."""
 import requests
 
 
-def count_words(subreddit, word_list):
+def count_words(subreddit, word_list, instances={}, after="", count=0):
+    """Prints counts of given words found in hot posts of a given subreddit.
+
+    Args:
+        subreddit (str): The subreddit to search.
+        word_list (list): The list of words to search for in post titles.
+        instances (obj): Key/value pairs of words/counts.
+        after (str): The parameter for the next page of the API results.
+        count (int): The parameter of results matched thus far.
     """
-    GET the word count for each word in word_list
-    Print results in descending order by the count, not the title
-    If no posts match or subreddit is invalid, print a newline
-    If a word has no matches, skip and do not print it
-    """
-    store = {word.lower(): 0 for word in word_list}
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {'user-agent': 'bruka request'}
-
-    req = requests.get(url, headers=headers)
-    if (req.status_code == 404 or 'data' not in req.json()):
-        return None
-    else:
-        while (1):
-            req = req.json()
-            for post in req['data']['children']:
-                tmp = post['data']['title'].split()
-                for word in tmp:
-                    if word.lower() in store.keys():
-                        store[word.lower()] += 1
-
-            after = req['data']['after']
-            if (after is None):
-                break
-            req = requests.get("{}?after={}".format(url, after), headers=headers)
-
-    store = [(k, store[k]) for k in
-               sorted(store, key=store.get, reverse=True)]
-
-    if len(store) == 0:
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    params = {
+        "after": after,
+        "count": count,
+        "limit": 100
+    }
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+    try:
+        results = response.json()
+        if response.status_code == 404:
+            raise Exception
+    except Exception:
         print("")
+        return
+
+    results = results.get("data")
+    after = results.get("after")
+    count += results.get("dist")
+    for c in results.get("children"):
+        title = c.get("data").get("title").lower().split()
+        for word in word_list:
+            if word.lower() in title:
+                times = len([t for t in title if t == word.lower()])
+                if instances.get(word) is None:
+                    instances[word] = times
+                else:
+                    instances[word] += times
+
+    if after is None:
+        if len(instances) == 0:
+            print("")
+            return
+        instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
+        [print("{}: {}".format(k, v)) for k, v in instances]
     else:
-        for k, v in store:
-            if (v > 0):
-                print("{}: {:d}".format(k, v))
+        count_words(subreddit, word_list, instances, after, count)
