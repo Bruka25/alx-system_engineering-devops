@@ -5,12 +5,15 @@ Reddit API hot articles
 
 import requests
 
+
 def recurse(subreddit, hot_list=[]):
     """
-    Recursively query the Reddit API to get titles of hot articles for a given subreddit.
+    Recursively query the Reddit API to get titles of hot articles for a given
+    subreddit.
     :param subreddit: The subreddit to retrieve hot articles from
     :param hot_list: A list to store the titles of hot articles
-    :return: A list containing titles of hot articles, or None if no results are found
+    :return: A list containing titles of hot articles, or None
+             if no results are found
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "Custom-User-Agent"}
