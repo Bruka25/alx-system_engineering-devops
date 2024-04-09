@@ -1,16 +1,15 @@
 #!/usr/bin/python3
 """This module  queries the Reddit API and returns a list containing
 """
-import requests
+# import requests
 
 
 def recurse(subreddit, hot_list=[], after="", count=0):
     """Returns a list of titles of all hot posts on a given subreddit."""
+    import requests
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) 
-                                    AppleWebKit/537.36 (KHTML, like Gecko) 
-                                    Chrome/122.0.0.0 Mobile Safari/537.36"
+        "User-Agent": "bruka request"
     }
     params = {
         "after": after,
