@@ -8,7 +8,7 @@ import requests
 def recurse(subreddit, hot_list=[], after=""):
     """
     Fubtion that stores results in hot_list provided as default to method
-    Requires recursive request stores.
+    Requires recursive request stores
     """
     if (after is None):
         return hot_list
