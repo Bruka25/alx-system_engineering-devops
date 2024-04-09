@@ -1,55 +1,47 @@
 #!/usr/bin/python3
-"""Function to count words in all hot posts of a given Reddit subreddit."""
+"""
+Reddit API word count
+"""
+
+import re
 import requests
 
 
-def count_words(subreddit, word_list, instances={}, after="", count=0):
-    """Prints counts of given words found in hot posts of a given subreddit.
-
-    Args:
-        subreddit (str): The subreddit to search.
-        word_list (list): The list of words to search for in post titles.
-        instances (obj): Key/value pairs of words/counts.
-        after (str): The parameter for the next page of the API results.
-        count (int): The parameter of results matched thus far.
+def count_words(subreddit, word_list, after='', word_count={}):
     """
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
-    params = {
-        "after": after,
-        "count": count,
-        "limit": 100
-    }
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
-    try:
-        results = response.json()
-        if response.status_code == 404:
-            raise Exception
-    except Exception:
-        print("")
-        return
+    Recursively query the Reddit API to count occurrences of given keywords
+    in hot articles of a subreddit.
+    Print the count of each keyword in descending order, with ties broken
+    alphabetically.
+    :param subreddit: The subreddit to retrieve hot articles from
+    :param word_list: A list of keywords to count occurrences of
+    :param after: The id of the last post in the current listing
+    :param word_count: A dictionary to store the count of each keyword
+    """
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100&after={after}"
+    headers = {"User-Agent": "Custom-User-Agent"}
 
-    results = results.get("data")
-    after = results.get("after")
-    count += results.get("dist")
-    for c in results.get("children"):
-        title = c.get("data").get("title").lower().split()
-        for word in word_list:
-            if word.lower() in title:
-                times = len([t for t in title if t == word.lower()])
-                if instances.get(word) is None:
-                    instances[word] = times
-                else:
-                    instances[word] += times
+    subreddit_info = requests.get(url, headers=headers, allow_redirects=False)
 
-    if after is None:
-        if len(instances) == 0:
-            print("")
-            return
-        instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
-        [print("{}: {}".format(k, v)) for k, v in instances]
+    if subreddit_info.status_code == 200:
+        data = subreddit_info.json().get('data', {})
+        posts = data.get('children', [])
+        if posts:
+            for post in posts:
+                title = post.get('data', {}).get('title', '').lower()
+                for word in word_list:
+                    word = word.lower()
+                    if re.search(rf"\b{word}\b", title):
+                        word_count[word] = word_count.get(word, 0) + 1
+
+            after = data.get('after')
+            if after:
+                return count_words(subreddit, word_list, after, word_count)
+            else:
+                sorted_word_count = sorted(word_count.items(), key=lambda x: (-x[1], x[0]))
+                for word, count in sorted_word_count:
+                    print(f"{word}: {count}")
+        else:
+            print("No hot articles found for the subreddit.")
     else:
-        count_words(subreddit, word_list, instances, after, count)
+        print("Invalid subreddit or unable to retrieve data.")
